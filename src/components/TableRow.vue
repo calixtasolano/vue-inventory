@@ -48,7 +48,7 @@ export default {
           <!--  <TableRow v-for="(item, index) in tableInfo" v-bind:rowItem="item" v-bind:key="item.title"
             v-on:edit-me="editItem(index)" v-on:delete-me="deleteItem(index)" /> -->
 
-          <tr v-for="(item, index) in rowItem" v-bind:rowItem="item" v-bind:key="item.title">
+          <tr v-for="(item, index) in rowItem" v-bind:key="item.title">
             <td><a v-bind:href="item.titleUrl" target="_blank">{{ item.title }}</a></td>
             <td>{{ item.author }}</td>
             <td>{{ item.quantity }}</td>

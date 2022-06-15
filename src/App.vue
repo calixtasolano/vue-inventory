@@ -6,38 +6,35 @@
 
                 <form :class="{ affectingEast: currentData() === eastdata }">
                     <div class="row">
-                        <div class="col-6 mb-3" id="title_div">
-                            <input v-model="title" type="text" class="form-control form-inv" placeholder="Enter Book Title"
-                                id="title">
+                        <div class="col-6 mb-3">
+                            <input v-model="title" type="text" class="form-control form-inv"
+                                placeholder="Enter Book Title">
                         </div>
-                        <div class="col-6" id="author_div">
-                            <input v-model="author" type="text" class="form-control form-inv" placeholder="Author" id="author">
+                        <div class="col-6">
+                            <input v-model="author" type="text" class="form-control form-inv" placeholder="Author">
                         </div>
-                        <div class="col-6 mb-3" id="quantity_div">
+                        <div class="col-6 mb-3">
                             <input v-model.number="quantity" type="number" class="form-control form-inv"
-                                placeholder="Quantity in Stock" id="quantity">
+                                placeholder="Quantity in Stock">
                         </div>
-                        <div class="col-6" id="isbn_div">
-                            <input v-model="isbn" type="text" class="form-control form-inv" placeholder="ISBN Number" id="isbn"
-                                pattern="^(?:ISBN(?:-1[03])?:?●)?(?=[0-9X]{10}$|(?=(?:[0-9]+[-●]){3})↵
-[-●0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[-●]){4})[-●0-9]{17}$)↵
-(?:97[89][-●]?)?[0-9]{1,5}[-●]?[0-9]+[-●]?[0-9]+[-●]?[0-9X]$">
+                        <div class="col-6">
+                            <input v-model="isbn" type="text" class="form-control form-inv" placeholder="ISBN Number">
                         </div>
-                        <div class="col-6" id="date_div">
-                            <div class='input-group date' id='datetimepicker1'>
+                        <div class="col-6">
+                            <div class='input-group date'>
                                 <input v-model="date" type="date" class="form-control form-inv" placeholder="Date">
                             </div>
                         </div>
 
 
-                        <div class="col-6" id="button">
-                            <div id="button_container_1" class="d-inline">
+                        <div class="col-6">
+                            <div class="d-inline">
                                 <button type="button" class="btn btn-primary add-btn"
                                     :class="['btn', 'btn-primary', 'add-btn', { affectingEast: currentData() === eastdata }]"
                                     v-on:click="addItem(currentData());" v-bind:disabled="isButtonDisabled">Add
                                     Row</button>
                             </div>
-                            <div id="button_container_2" class="d-inline ms-3">
+                            <div class="d-inline ms-3">
                                 <button type="button"
                                     :class="['btn', 'btn-warning', 'update-btn', { affectingEast: currentData() === eastdata }]"
                                     v-show="showUpdate"
@@ -90,8 +87,6 @@ export default {
     },
     methods: {
         alphaOrder: function (arr) {
-            console.log('alpha');
-            console.log(arr);
             arr.sort(function (a, b) {
                 const nameA = a.title.toLowerCase();
                 const nameB = b.title.toLowerCase();
@@ -119,7 +114,6 @@ export default {
             this.isbn = '';
         },
         addItem: function (arr) {
-            console.log('title ' + this.title + typeof (this.title));
             if (!this.title) {
                 alert("You must enter a title to add a row");
                 return;
@@ -128,17 +122,12 @@ export default {
         },
 
         addingSortingClearing: function (arr) {
-            console.log('addsortclear');
-            console.log(arr);
             this.pushIt(arr);
             this.alphaOrder(arr);
             this.clearFields();
         },
 
         pushIt: function (arr) {
-            console.log('pushing');
-            console.log(arr);
-
             var rowObject = {
                 title: this.title,
                 author: this.author,
@@ -147,7 +136,6 @@ export default {
                 date: this.date,
                 titleUrl: "https://www.google.com/search?q=" + this.title
             };
-            console.log(rowObject);
             arr.push(rowObject);
             //check if page (key) already exists?
         },
@@ -164,16 +152,9 @@ export default {
                 this.date = row.date,
                 this.titleUrl = row.titleUrl
 
-            console.log(row);
             this.lineToEdit = spot;
-
-            console.log(this.lineToEdit);
         },
         updateItem: function (arr, lineToEdit) {
-            console.log(arr);
-            console.log(lineToEdit);
-            console.log(arr[lineToEdit]);
-
             var rowObject = {
                 title: this.title,
                 author: this.author,
@@ -210,14 +191,14 @@ div.container {
     padding-top: 2em;
 }
 
-input.form-inv:focus{
+input.form-inv:focus {
     box-shadow: 0 0 0 0.25rem rgb(61 84 133 / 25%);
-    border-color:#3d5485;
+    border-color: #3d5485;
 }
 
-form.affectingEast input.form-inv:focus{
+form.affectingEast input.form-inv:focus {
     box-shadow: 0 0 0 0.25rem rgb(229 180 222 / 25%);
-    border-color:#e5b4de;
+    border-color: #e5b4de;
 }
 
 button.tab-button {
@@ -247,9 +228,8 @@ button.eastTab {
     border-color: #d166c2 !important;
 }
 
-/*comment */
-
-.add-btn, .add-btn:disabled,
+.add-btn,
+.add-btn:disabled,
 .update-btn {
     background-color: #3d5485;
     border-color: #3d5485;
@@ -261,15 +241,14 @@ button.eastTab {
 .update-btn:hover,
 .update-btn:active,
 .add-btn:focus,
-.update-btn:focus
-{
+.update-btn:focus {
     background-color: #2b3b5e;
-    border-color:#2b3b5e;
-    color:#fff;
+    border-color: #2b3b5e;
+    color: #fff;
 }
 
 .add-btn:focus,
-.update-btn:focus{
+.update-btn:focus {
     box-shadow: 0 0 0 0.25rem rgb(61 84 133 / 25%);
 }
 
@@ -281,7 +260,7 @@ button.eastTab {
 }
 
 .add-btn.affectingEast:focus,
-.update-btn.affectingEast:focus{
-     box-shadow: 0 0 0 0.25rem rgb(229 180 222 / 25%);
+.update-btn.affectingEast:focus {
+    box-shadow: 0 0 0 0.25rem rgb(229 180 222 / 25%);
 }
 </style>

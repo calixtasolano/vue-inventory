@@ -15,10 +15,27 @@ export default {
       type: String
     }
   },
+  data() {
+    return {
+      lineToDelete: '',
+    }
+  },
   methods: {
     deleteItem: function (index) {
+      let deleteBox = document.getElementById("delete-box");
+      deleteBox.classList.toggle("show-modal");
+
       console.log(index);
-      this.rowItem.splice(index, 1);
+
+      return this.lineToDelete = index;
+    },
+    removal: function (line, option) {
+      if (option === true) {
+        this.rowItem.splice(line, 1);
+      }
+      let deleteBox = document.getElementById("delete-box");
+      deleteBox.classList.toggle("show-modal");
+
     },
     passEdit: function (index) {
       this.$emit('editItem', {
@@ -34,17 +51,27 @@ export default {
 
 <template>
   <div :class="['tab', { eastTable: tabInUse === 'East Side Shop' }]">
+    <div class="modal" id="delete-box">
+      <div class="modal-inner">
+      <p><strong> Are you sure you want to delete this row?</strong></p>
+      <hr>
+      <button type="button" id="delete-yes" class="btn me-4" v-on:click="removal(this.lineToDelete, true)">Yes</button>
+      <button type="button" id="delete-no" class="btn" v-on:click="removal(this.lineToDelete, false)">No</button>
+      </div>
+    </div>
     <div id="table">
       <table class="table">
         <thead>
-          <th scope="col" v-on:click="alphaOrder">Book Title</th>
-          <th scope="col" v-on:click="alphaOrder">Author</th>
-          <th scope="col">Quantity</th>
-          <th scope="col">ISBN Number</th>
-          <th scope="col" v-on:click="sortByDate(rowdata)">Date</th>
-          <th scope="col">Change</th>
+          <tr>
+            <th scope="col" v-on:click="alphaOrder">Book Title</th>
+            <th scope="col" v-on:click="alphaOrder">Author</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">ISBN Number</th>
+            <th scope="col" v-on:click="sortByDate(rowdata)">Date</th>
+            <th scope="col">Change</th>
+          </tr>
         </thead>
-        <tbody>
+        <tbody class="table-group-divider">
           <!--  <TableRow v-for="(item, index) in tableInfo" v-bind:rowItem="item" v-bind:key="item.title"
             v-on:edit-me="editItem(index)" v-on:delete-me="deleteItem(index)" /> -->
 
@@ -55,13 +82,15 @@ export default {
             <td>{{ item.isbn }}</td>
             <td>{{ item.date }}</td>
             <td>
-              <button type="button" class="btn" v-on:click="passEdit(index)">Edit</button>
-              <button type="button" class="close" aria-label="Close" v-on:click="deleteItem(index)"><span
+              <button type="button" class="btn edit-btn me-4" v-on:click="passEdit(index)">Edit</button>
+              <button type="button" class="btn-close btn-close-white" aria-label="Close"
+                v-on:click="deleteItem(index)"></button>
+              <!--               <button type="button" class="close" aria-label="Close" v-on:click="deleteItem(index)"><span
                   aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-x" viewBox="0 0 16 16">
                     <path
                       d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                  </svg></span></button>
+                  </svg></span></button> -->
             </td>
 
           </tr>
@@ -79,6 +108,10 @@ export default {
 
 .eastTable {
   background-color: #e5b4de;
+}
+
+.table-group-divider {
+  border-color: #fff;
 }
 
 .table thead th,
@@ -106,8 +139,57 @@ export default {
   background-color: #fff;
 }
 
-.table td:nth-child(6) {
+.btn.edit-btn {
+  color: #000;
+}
+
+/* .table td:nth-child(6) {
   display: flex;
   justify-content: space-between;
+} */
+
+table>tbody>tr>td>button.btn-close {
+  /* width:1.5em;
+  height: 1.5em; */
+  color: #fff;
+  opacity: 1 !important;
+  padding: none;
+}
+
+.eastTable table>tbody>tr>td>button.btn-close {
+  color: #000;
+  filter: none;
+}
+
+.show-modal {
+  display: block;
+ /*  top: 20%; */
+ /*  left:25%; */
+  width: 100%;
+  height: 100%;
+/*   background-color:rgba(148, 214, 243, 0.8); */
+  background-image: radial-gradient(rgba(87,97,178,0.9),rgba(229, 180,222,0.9));
+  padding: 1em;
+  /* background-color: #fff;
+  width:20em;
+  height: auto;
+  position: fixed; */
+}
+
+.modal-inner{
+  display: block;
+  position: fixed;
+  padding:3em;
+ /*  background-color: rgba(148, 214, 243, 0.5); */
+  width:50%;
+  left:25%;
+  top:18%;
+  text-align: center;
+  font-size: 2em;
+}
+
+
+.modal-inner .btn{
+font-size: 0.9em;  
 }
 </style>

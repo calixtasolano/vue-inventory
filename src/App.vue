@@ -4,25 +4,28 @@
         <div class="row">
             <div class="col-12">
 
-                <form>
+                <form :class="{ affectingEast: currentData() === eastdata }">
                     <div class="row">
                         <div class="col-6 mb-3" id="title_div">
-                            <input v-model="title" type="text" class="form-control" placeholder="Enter Book Title"
+                            <input v-model="title" type="text" class="form-control form-inv" placeholder="Enter Book Title"
                                 id="title">
                         </div>
                         <div class="col-6" id="author_div">
-                            <input v-model="author" type="text" class="form-control" placeholder="Author" id="author">
+                            <input v-model="author" type="text" class="form-control form-inv" placeholder="Author" id="author">
                         </div>
                         <div class="col-6 mb-3" id="quantity_div">
-                            <input v-model.number="quantity" type="number" class="form-control"
+                            <input v-model.number="quantity" type="number" class="form-control form-inv"
                                 placeholder="Quantity in Stock" id="quantity">
                         </div>
                         <div class="col-6" id="isbn_div">
-                            <input v-model="isbn" type="text" class="form-control" placeholder="ISBN Number" id="isbn">
+                            <input v-model="isbn" type="text" class="form-control form-inv" placeholder="ISBN Number" id="isbn"
+                                pattern="^(?:ISBN(?:-1[03])?:?●)?(?=[0-9X]{10}$|(?=(?:[0-9]+[-●]){3})↵
+[-●0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[-●]){4})[-●0-9]{17}$)↵
+(?:97[89][-●]?)?[0-9]{1,5}[-●]?[0-9]+[-●]?[0-9]+[-●]?[0-9X]$">
                         </div>
                         <div class="col-6" id="date_div">
                             <div class='input-group date' id='datetimepicker1'>
-                                <input v-model="date" type="date" class="form-control" placeholder="Date">
+                                <input v-model="date" type="date" class="form-control form-inv" placeholder="Date">
                             </div>
                         </div>
 
@@ -34,7 +37,7 @@
                                     v-on:click="addItem(currentData());" v-bind:disabled="isButtonDisabled">Add
                                     Row</button>
                             </div>
-                            <div id="button_container_2" class="d-inline ml-3">
+                            <div id="button_container_2" class="d-inline ms-3">
                                 <button type="button"
                                     :class="['btn', 'btn-warning', 'update-btn', { affectingEast: currentData() === eastdata }]"
                                     v-show="showUpdate"
@@ -158,7 +161,7 @@ export default {
                 this.author = row.author,
                 this.quantity = row.quantity,
                 this.isbn = row.isbn,
-                this.date = row.data,
+                this.date = row.date,
                 this.titleUrl = row.titleUrl
 
             console.log(row);
@@ -207,6 +210,16 @@ div.container {
     padding-top: 2em;
 }
 
+input.form-inv:focus{
+    box-shadow: 0 0 0 0.25rem rgb(61 84 133 / 25%);
+    border-color:#3d5485;
+}
+
+form.affectingEast input.form-inv:focus{
+    box-shadow: 0 0 0 0.25rem rgb(229 180 222 / 25%);
+    border-color:#e5b4de;
+}
+
 button.tab-button {
     width: 50%;
     padding: 1em;
@@ -219,7 +232,6 @@ button.tab-button {
 }
 
 button.active:focus {
-
     outline: none;
 }
 
@@ -237,11 +249,28 @@ button.eastTab {
 
 /*comment */
 
-.add-btn,
+.add-btn, .add-btn:disabled,
 .update-btn {
     background-color: #3d5485;
     border-color: #3d5485;
     color: #fff;
+}
+
+.add-btn:hover,
+.add-btn:active,
+.update-btn:hover,
+.update-btn:active,
+.add-btn:focus,
+.update-btn:focus
+{
+    background-color: #2b3b5e;
+    border-color:#2b3b5e;
+    color:#fff;
+}
+
+.add-btn:focus,
+.update-btn:focus{
+    box-shadow: 0 0 0 0.25rem rgb(61 84 133 / 25%);
 }
 
 .add-btn.affectingEast,
@@ -249,5 +278,10 @@ button.eastTab {
     background-color: #e5b4de;
     border-color: #e5b4de;
     color: #000;
+}
+
+.add-btn.affectingEast:focus,
+.update-btn.affectingEast:focus{
+     box-shadow: 0 0 0 0.25rem rgb(229 180 222 / 25%);
 }
 </style>

@@ -79,10 +79,10 @@ export default {
             lineToEdit: '',
             showUpdate: false,
             westdata: [{ title: 'Harry Potter and the Sorcerer\'s Stone', titleUrl: 'https://www.google.com/search?q=Harry+Potter+and+the+Sorcerer%27s+Stone', author: ' J. K. Rowling', quantity: '10', isbn: '0399501487', date: '2022-05-30' },
-            { title: 'Lord of the Flies', titleUrl: 'https://www.google.com/search?q=lord+of+the+flies', author: ' William Golding', quantity: '15', isbn: '0439708184', date: '2022-05-20' },
+            { title: 'Lord of the Flies', titleUrl: 'https://www.google.com/search?q=lord+of+the+flies', author: ' William Golding', quantity: '15', isbn: '978-0571295715', date: '2022-05-20' },
             { title: 'Roll of Thunder, Hear My Cry', titleUrl: 'https://www.google.com/search?q=roll+of+thunder+hear+my+cry', author: ' Mildred D. Taylor', quantity: '7', isbn: '0142401129', date: '2022-05-25' }],
             eastdata: [{ "title": 'Diary of a Wimpy Kid', "titleUrl": 'https://www.google.com/search?q=diary+of+a+wimpy+kid', "author": 'Jeff Kinney', "quantity": '5', "isbn": '1419741853', "date": '2022-05-02' },
-            { title: 'The Hunger Games', titleUrl: 'https://www.google.com/search?q=the+hunger+games', author: 'Suzanne Collins', quantity: '8', isbn: '0439023483', date: '2022-05-08' }]
+            { title: 'The Hunger Games', titleUrl: 'https://www.google.com/search?q=the+hunger+games', author: 'Suzanne Collins', quantity: '8', isbn: '978-1338321913', date: '2022-05-08' }]
         }
     },
     methods: {
@@ -118,6 +118,16 @@ export default {
                 alert("You must enter a title to add a row");
                 return;
             }
+            /* console.log(arr.map(entry => entry.title)); */
+            let match = arr.map(entry => entry.title).includes(this.title);
+           /*  console.log(match); */
+            if(match){
+                alert("You must enter a unique title to add a row");
+                return;
+            }
+            if (this.isbn) {
+                this.checkISBN();
+            }
             this.addingSortingClearing(arr);
         },
 
@@ -125,6 +135,57 @@ export default {
             this.pushIt(arr);
             this.alphaOrder(arr);
             this.clearFields();
+        },
+
+        checkISBN: function () {
+
+            var subject = this.isbn;
+
+            // Checks for ISBN-10 or ISBN-13 format
+            var regex = /^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){1,4})[- 0-9]{14,17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$/;
+
+            if (regex.test(subject)) {
+                // Remove non ISBN digits, then split into an array
+                var chars = subject.replace(/[- ]|^ISBN(?:-1[03])?:?/g, "").split("");
+                // Remove the final ISBN digit from `chars`, and assign it to `last`
+                var last = chars.pop();
+                var sum = 0;
+                var check, i;
+
+                if (chars.length == 9) {
+                    // Compute the ISBN-10 check digit
+                    chars.reverse();
+                    for (i = 0; i < chars.length; i++) {
+                        sum += (i + 2) * parseInt(chars[i], 10);
+                    }
+                    check = 11 - (sum % 11);
+                    if (check == 10) {
+                        check = "X";
+                    } else if (check == 11) {
+                        check = "0";
+                    }
+                } else {
+                    // Compute the ISBN-13 check digit
+                    for (i = 0; i < chars.length; i++) {
+                        sum += (i % 2 * 2 + 1) * parseInt(chars[i], 10);
+                    }
+                    check = 10 - (sum % 10);
+                    if (check == 10) {
+                        check = "0";
+                    }
+                }
+
+                if (check == last) {
+                    /* alert("Valid ISBN"); */
+                    return this.isbn;
+                } else {
+                    alert("Invalid ISBN check digit. Your entry will be made without the ISBN.");
+                    return this.isbn = "";
+                }
+            } else {
+                alert("Invalid ISBN. Your entry will be made without the ISBN.");
+                return this.isbn = "";
+            }
         },
 
         pushIt: function (arr) {
@@ -155,6 +216,14 @@ export default {
             this.lineToEdit = spot;
         },
         updateItem: function (arr, lineToEdit) {
+
+            if (!this.title) {
+                alert("You must include a title in your edited row");
+                return;
+            }
+            if (this.isbn) {
+                this.checkISBN();
+            }
             var rowObject = {
                 title: this.title,
                 author: this.author,
@@ -162,11 +231,6 @@ export default {
                 isbn: this.isbn,
                 date: this.date,
                 titleUrl: "https://www.google.com/search?q=" + this.title
-            };
-
-            if (!this.title) {
-                alert("You must include a title in your edited row");
-                return;
             }
             arr[lineToEdit] = rowObject;
 

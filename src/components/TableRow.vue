@@ -72,7 +72,7 @@ export default {
             <td>{{ item.date }}</td>
             <td>
               <button type="button" class="btn edit-btn me-4" v-on:click="passEdit(index)">Edit</button>
-              <button type="button" class="btn-close btn-close-white" aria-label="Close"
+              <button type="button" class="btn-close btn-close-white btn-delete" aria-label="Close"
                 v-on:click="deleteItem(index)"></button>
             </td>
 
@@ -122,18 +122,23 @@ export default {
   background-color: #fff;
 }
 
+table>tbody>tr>td>button.btn-delete{
+ box-sizing:border-box;
+ width:1.5em;
+}
+
 .btn.edit-btn {
   color: #000;
 }
 
 
-table>tbody>tr>td>button.btn-close {
+table>tbody>tr>td>button.btn-delete {
   color: #fff;
   opacity: 1 !important;
   padding: none;
 }
 
-.eastTable table>tbody>tr>td>button.btn-close {
+.eastTable table>tbody>tr>td>button.btn-delete {
   color: #000;
   filter: none;
 }

@@ -14,7 +14,7 @@
                             <input v-model="author" type="text" class="form-control form-inv" placeholder="Author">
                         </div>
                         <div class="col-6 mb-3">
-                            <input v-model.number="quantity" type="number" class="form-control form-inv"
+                            <input v-model.number="quantity" type="number" min="0" class="form-control form-inv"
                                 placeholder="Quantity in Stock">
                         </div>
                         <div class="col-6">
@@ -104,26 +104,26 @@ export default {
                 return this.westdata;
             }
             return this.eastdata;
-
         },
         clearFields: function () {
             this.title = '';
             this.author = '';
-            this.date = '';
+            this.date = ' ';
             this.quantity = '';
             this.isbn = '';
         },
         addItem: function (arr) {
             if (!this.title) {
-                alert("You must enter a title to add a row");
+                alert("You must enter a title to add a row.");
                 return;
             }
-            /* console.log(arr.map(entry => entry.title)); */
             let match = arr.map(entry => entry.title).includes(this.title);
-           /*  console.log(match); */
             if(match){
-                alert("You must enter a unique title to add a row");
+                alert("You must enter a unique title to add a row.");
                 return;
+            }
+            if (!this.date) {
+                alert("You must enter a complete date. Your entry will be made without a date.");
             }
             if (this.isbn) {
                 this.checkISBN();
@@ -198,7 +198,6 @@ export default {
                 titleUrl: "https://www.google.com/search?q=" + this.title
             };
             arr.push(rowObject);
-            //check if page (key) already exists?
         },
         edit: function ({ row, spot }) {
 
@@ -207,11 +206,11 @@ export default {
 
 
             this.title = row.title,
-                this.author = row.author,
-                this.quantity = row.quantity,
-                this.isbn = row.isbn,
-                this.date = row.date,
-                this.titleUrl = row.titleUrl
+            this.author = row.author,
+            this.quantity = row.quantity,
+            this.isbn = row.isbn,
+            this.date = row.date,
+            this.titleUrl = row.titleUrl
 
             this.lineToEdit = spot;
         },
@@ -220,6 +219,9 @@ export default {
             if (!this.title) {
                 alert("You must include a title in your edited row");
                 return;
+            }
+            if (!this.date) {
+                alert("You must enter a complete date. Your entry will be made without a date.");
             }
             if (this.isbn) {
                 this.checkISBN();

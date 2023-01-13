@@ -1,111 +1,109 @@
 <template>
-  <div id="app" class="container">
-    <h1 class="text-center mb-5">Book Nook Shop Inventory</h1>
-    <div class="row">
-      <div class="col-12">
-        <form :class="{ affectingEast: currentData() === eastdata }">
-          <div class="row">
-            <div class="col-6 mb-3">
+  <h1 class="text-center mb-5">Book Nook Shop Inventory</h1>
+  <div class="row">
+    <div class="col-12">
+      <form :class="{ affectingEast: currentData() === eastdata }">
+        <div class="row">
+          <div class="col-6 mb-3">
+            <input
+              v-model="title"
+              type="text"
+              class="form-control form-inv"
+              placeholder="Enter Book Title"
+            />
+          </div>
+          <div class="col-6">
+            <input
+              v-model="author"
+              type="text"
+              class="form-control form-inv"
+              placeholder="Author"
+            />
+          </div>
+          <div class="col-6 mb-3">
+            <input
+              v-model.number="quantity"
+              type="number"
+              min="0"
+              class="form-control form-inv"
+              placeholder="Quantity in Stock"
+            />
+          </div>
+          <div class="col-6">
+            <input
+              v-model="isbn"
+              type="text"
+              class="form-control form-inv"
+              placeholder="ISBN Number"
+            />
+          </div>
+          <div class="col-6">
+            <div class="input-group date">
               <input
-                v-model="title"
-                type="text"
+                v-model="date"
+                type="date"
                 class="form-control form-inv"
-                placeholder="Enter Book Title"
+                placeholder="Date"
               />
-            </div>
-            <div class="col-6">
-              <input
-                v-model="author"
-                type="text"
-                class="form-control form-inv"
-                placeholder="Author"
-              />
-            </div>
-            <div class="col-6 mb-3">
-              <input
-                v-model.number="quantity"
-                type="number"
-                min="0"
-                class="form-control form-inv"
-                placeholder="Quantity in Stock"
-              />
-            </div>
-            <div class="col-6">
-              <input
-                v-model="isbn"
-                type="text"
-                class="form-control form-inv"
-                placeholder="ISBN Number"
-              />
-            </div>
-            <div class="col-6">
-              <div class="input-group date">
-                <input
-                  v-model="date"
-                  type="date"
-                  class="form-control form-inv"
-                  placeholder="Date"
-                />
-              </div>
-            </div>
-
-            <div class="col-6">
-              <div class="d-inline">
-                <button
-                  type="button"
-                  class="btn btn-primary add-btn"
-                  :class="[
-                    'btn',
-                    'btn-primary',
-                    'add-btn',
-                    { affectingEast: currentData() === eastdata },
-                  ]"
-                  v-on:click="addItem(currentData())"
-                  v-bind:disabled="isButtonDisabled"
-                >
-                  Add Row
-                </button>
-              </div>
-              <div class="d-inline ms-3">
-                <button
-                  type="button"
-                  :class="[
-                    'btn',
-                    'btn-warning',
-                    'update-btn',
-                    { affectingEast: currentData() === eastdata },
-                  ]"
-                  v-show="showUpdate"
-                  v-on:click="updateItem(currentData(), lineToEdit)"
-                >
-                  Update
-                </button>
-              </div>
             </div>
           </div>
-        </form>
-      </div>
-      <div class="col-md-12 mt-5">
-        <button
-          v-for="tab in tabs"
-          :key="tab"
-          :class="[
-            'tab-button',
-            { active: currentTab === tab },
-            { eastTab: tab === 'East Side Shop' },
-            { westTab: tab === 'West Side Shop' },
-          ]"
-          @click="currentTab = tab"
-        >
-          {{ tab }}
-        </button>
-        <TableRow
-          class="tab"
-          v-bind:rowItem="currentData()"
-          @editItem="edit($event)"
-          v-bind:tabInUse="currentTab"
-        ></TableRow>
-      </div>
+
+          <div class="col-6">
+            <div class="d-inline">
+              <button
+                type="button"
+                class="btn btn-primary add-btn"
+                :class="[
+                  'btn',
+                  'btn-primary',
+                  'add-btn',
+                  { affectingEast: currentData() === eastdata },
+                ]"
+                v-on:click="addItem(currentData())"
+                v-bind:disabled="isButtonDisabled"
+              >
+                Add Row
+              </button>
+            </div>
+            <div class="d-inline ms-3">
+              <button
+                type="button"
+                :class="[
+                  'btn',
+                  'btn-warning',
+                  'update-btn',
+                  { affectingEast: currentData() === eastdata },
+                ]"
+                v-show="showUpdate"
+                v-on:click="updateItem(currentData(), lineToEdit)"
+              >
+                Update
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-12 mt-5">
+      <button
+        v-for="tab in tabs"
+        :key="tab"
+        :class="[
+          'tab-button',
+          { active: currentTab === tab },
+          { eastTab: tab === 'East Side Shop' },
+          { westTab: tab === 'West Side Shop' },
+        ]"
+        @click="currentTab = tab"
+      >
+        {{ tab }}
+      </button>
+      <TableRow
+        class="tab"
+        v-bind:rowItem="currentData()"
+        @editItem="edit($event)"
+        v-bind:tabInUse="currentTab"
+      ></TableRow>
     </div>
   </div>
 </template>

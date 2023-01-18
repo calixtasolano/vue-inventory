@@ -49,7 +49,7 @@
           </div>
 
           <div class="col-6">
-            <div class="d-inline">
+            <div class="d-inline me-3">
               <button
                 type="button"
                 class="btn btn-primary add-btn"
@@ -65,7 +65,7 @@
                 Add Row
               </button>
             </div>
-            <div class="d-inline ms-3">
+            <div class="d-inline">
               <button
                 type="button"
                 :class="[
@@ -159,7 +159,7 @@ export default {
           title: "Diary of a Wimpy Kid",
           titleUrl: "https://www.google.com/search?q=diary+of+a+wimpy+kid",
           author: "Jeff Kinney",
-          quantity: "5",
+          quantity: "15",
           isbn: "1419741853",
           date: "2022-05-02",
         },
@@ -167,7 +167,7 @@ export default {
           title: "The Hunger Games",
           titleUrl: "https://www.google.com/search?q=the+hunger+games",
           author: "Suzanne Collins",
-          quantity: "8",
+          quantity: "11",
           isbn: "978-1338321913",
           date: "2022-05-08",
         },
@@ -360,7 +360,8 @@ form.affectingEast input.form-inv:focus {
 button.tab-button {
   width: 50%;
   padding: 1em;
-  font-size: 1.3em;
+  font-size: 1.2em;
+  line-height: 1.5em;
   font-weight: 700;
   border-radius: 0.25em;
   border-color: transparent;
@@ -417,5 +418,15 @@ button.eastTab {
 .add-btn.affectingEast:focus,
 .update-btn.affectingEast:focus {
   box-shadow: 0 0 0 0.25rem rgb(229 180 222 / 25%);
+}
+
+.add-btn {
+  margin-bottom: 1rem;
+}
+
+@media only screen and (min-width: 417px) {
+  .add-btn {
+    margin-bottom: 0rem;
+  }
 }
 </style>

@@ -3,23 +3,23 @@ export default {
   name: "TableRow",
   props: {
     rowItem: {
-      type: Object
+      type: Object,
     },
     tabInUse: {
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
     return {
-      lineToDelete: '',
-    }
+      lineToDelete: "",
+    };
   },
   methods: {
     deleteItem: function (index) {
       let deleteBox = document.getElementById("delete-box");
       deleteBox.classList.toggle("show-modal");
 
-      return this.lineToDelete = index;
+      return (this.lineToDelete = index);
     },
     removal: function (line, option) {
       if (option === true) {
@@ -27,28 +27,37 @@ export default {
       }
       let deleteBox = document.getElementById("delete-box");
       deleteBox.classList.toggle("show-modal");
-
     },
     passEdit: function (index) {
-      this.$emit('editItem', {
+      this.$emit("editItem", {
         row: this.rowItem[index],
-        spot: index
-      })
-    }
-  }
-}
+        spot: index,
+      });
+    },
+  },
+};
 </script>
-
-
 
 <template>
   <div :class="['tab', { eastTable: tabInUse === 'East Side Shop' }]">
     <div class="modal" id="delete-box">
       <div class="modal-inner">
-      <p><strong> Are you sure you want to delete this row?</strong></p>
-      <hr>
-      <button type="button" class="btn me-4" v-on:click="removal(this.lineToDelete, true)">Yes</button>
-      <button type="button" class="btn" v-on:click="removal(this.lineToDelete, false)">No</button>
+        <p><strong> Are you sure you want to delete this row?</strong></p>
+        <hr />
+        <button
+          type="button"
+          class="btn me-4"
+          v-on:click="removal(this.lineToDelete, true)"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          class="btn"
+          v-on:click="removal(this.lineToDelete, false)"
+        >
+          No
+        </button>
       </div>
     </div>
     <div id="table">
@@ -57,27 +66,39 @@ export default {
           <tr>
             <th scope="col" v-on:click="alphaOrder">Book Title</th>
             <th scope="col" v-on:click="alphaOrder">Author</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">ISBN Number</th>
+            <th scope="col">Qty</th>
+            <th scope="col">ISBN</th>
             <th scope="col" v-on:click="sortByDate(rowdata)">Date</th>
             <th scope="col">Change</th>
           </tr>
         </thead>
         <tbody class="table-group-divider">
           <tr v-for="(item, index) in rowItem" v-bind:key="item.title">
-            <td><a v-bind:href="item.titleUrl" target="_blank">{{ item.title }}</a></td>
+            <td>
+              <a v-bind:href="item.titleUrl" target="_blank">{{
+                item.title
+              }}</a>
+            </td>
             <td>{{ item.author }}</td>
             <td>{{ item.quantity }}</td>
-            <td>{{ item.isbn }}</td>
+            <td class="break-isbn">{{ item.isbn }}</td>
             <td>{{ item.date }}</td>
-            <td>
-              <button type="button" class="btn edit-btn me-4" v-on:click="passEdit(index)">Edit</button>
-              <button type="button" class="btn-close btn-close-white btn-delete" aria-label="Close"
-                v-on:click="deleteItem(index)"></button>
+            <td class="change-col">
+              <button
+                type="button"
+                class="btn edit-btn"
+                v-on:click="passEdit(index)"
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                class="btn-close btn-close-white btn-delete"
+                aria-label="Close"
+                v-on:click="deleteItem(index)"
+              ></button>
             </td>
-
           </tr>
-
         </tbody>
       </table>
     </div>
@@ -103,7 +124,6 @@ export default {
   vertical-align: 0;
   color: #fff;
 }
-
 .eastTable .table thead th,
 .eastTable .table td {
   color: #000;
@@ -115,55 +135,86 @@ export default {
 }
 
 .eastTable .table td a {
-  color: #000
+  color: #000;
 }
 
 .btn {
   background-color: #fff;
 }
 
-table>tbody>tr>td>button.btn-delete{
- box-sizing:border-box;
- width:1.5em;
+.table td.break-isbn {
+  overflow-wrap: anywhere;
+}
+
+.table td.change-col {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  vertical-align: middle;
+}
+
+table > tbody > tr > td > button.btn-delete {
+  box-sizing: border-box;
+  width: 1.5em;
 }
 
 .btn.edit-btn {
   color: #000;
+  margin: 0em 0em 1em 0em;
 }
 
-
-table>tbody>tr>td>button.btn-delete {
+table > tbody > tr > td > button.btn-delete {
   color: #fff;
   opacity: 1 !important;
   padding: none;
 }
 
-.eastTable table>tbody>tr>td>button.btn-delete {
+.eastTable table > tbody > tr > td > button.btn-delete {
   color: #000;
   filter: none;
+}
+
+@media only screen and (min-width: 428px) {
+  .table td.change-col {
+    width: 10%;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .table td.change-col {
+    text-align: left;
+  }
+
+  .btn.edit-btn {
+    margin: 0em 1em 0em 0em;
+  }
 }
 
 .show-modal {
   display: block;
   width: 100%;
   height: 100%;
-  background-image: radial-gradient(rgba(87,97,178,0.9),rgba(229, 180,222,0.9));
+  background-image: radial-gradient(
+    rgba(87, 97, 178, 0.9),
+    rgba(229, 180, 222, 0.9)
+  );
   padding: 1em;
 }
 
-.modal-inner{
+.modal-inner {
   display: block;
   position: fixed;
-  padding:3em;
-  width:50%;
-  left:25%;
-  top:18%;
+  padding: 3em;
+  width: 50%;
+  left: 25%;
+  top: 18%;
   text-align: center;
   font-size: 2em;
 }
 
-
-.modal-inner .btn{
-font-size: 0.9em;  
+.modal-inner .btn {
+  font-size: 0.9em;
+  font-size: 0.9em;
+  font-size: 0.9em;
 }
 </style>

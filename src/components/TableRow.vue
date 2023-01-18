@@ -204,10 +204,9 @@ table > tbody > tr > td > button.btn-delete {
 .modal-inner {
   display: block;
   position: fixed;
-  padding: 3em;
   width: 50%;
   left: 25%;
-  top: 18%;
+  top: 33%;
   text-align: center;
   font-size: 2em;
 }
